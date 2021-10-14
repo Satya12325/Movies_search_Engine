@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden{
+            display: none;
+        }
+        .visible{
+            display: block;
+        }
+        div{
+            border: 2px solid black;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">show button</button>
+    <div id="div" class="hidden">
+        <div onClick="alert(1)">1
+            <div onClick="alert(2)">2
+                <div onClick="alert(3)">3
+                    <div onClick="alert(4)">4
+                        <div onClick="alert(5)" >5
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+window.addEventListener("load", () => {
+    var btn = document.getElementById("btn");
+    btn.addEventListener("click", () =>{
+        var div = document.getElementById("div");
+        div.className = "visible"
+    })
+})
+
+
+
+</script>
+</html>
