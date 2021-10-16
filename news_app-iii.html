@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search News</title>
+    <style>
+        #navbar {
+            height: 50px;
+            background-color: rgb(146, 141, 146);
+            width: 100%;
+            display: flex;
+        }
+
+        .logo {
+            height: 40px;
+            margin: 3px
+        }
+
+        .navbar-inner {
+            padding: 10px;
+
+        }
+
+        button {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            margin-right: 50px;
+        }
+
+        .news-item {
+            width: 550px;
+            padding: 30px;
+        }
+
+
+        #container {
+            width: 1000px;
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .news-item {
+            border: 1px solid black;
+            width: 400px;
+            margin: 10px;
+        }
+        #image{
+            width: 400px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <img class="logo" src="https://logodix.com/logo/727250.jpg" />
+        <div class="navbar-inner">
+           <input type="text" placeholder="type you Serch News" id="Search"/>
+            <button id="ser">Search</button>
+        </div>
+    </div>
+    <div id="container"></div>
+</body>
+<script type="text/javascript">
+     window.addEventListener("load", function () {
+        
+        var technology = document.getElementById("ser");
+        technology.addEventListener("click", loadNews)
+    })
+
+    const loadNews = async () => {
+        var search = document.getElementById("Search").value;
+        try {
+
+            let res = await fetch(
+                `https://newsapi.org/v2/everything?q=${search}&from=2021-09-16&sortBy=publishedAt&apiKey=580d15109e05443e8720632239187a64`
+                )
+            let data = await res.json();
+            console.log(data);
+            showData(data);
+        } catch (err) {
+
+        }
+    }
+
+    function showData(data) {
+        let result = document.getElementById("container");
+        result.innerHTML = "";
+        result.innerHTML = data.articles.map((news) => {
+            return `
+            <div class="news-item">
+            <h2>${news.title}</h2>
+            <img src="${news.urlToImage}" id="image" alt=${news.title}/>
+            <p class="author">Author: ${news.author}</p>
+            <p class="news-description">${news.content}</p>
+            </div>`
+        })
+
+    }
+</script>
+</html>
