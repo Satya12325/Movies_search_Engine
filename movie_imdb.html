@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Movies Information</title>
+    <style>
+        body {
+            background: rgb(238, 174, 202);
+            background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(217, 233, 148, 1) 100%);
+        }
+
+        .serchEngine {
+            width: 300px;
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        #Container {
+            width: 600px;
+            margin: auto;
+            display: flex;
+
+        }
+
+        .details {
+            padding: 20px;
+
+        }
+
+        p {
+            line-height: 1.5em;
+        }
+
+        h2 {
+            color: #FFFFFF;
+            background: #333333;
+            text-shadow: 0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;
+            font-size: 30px;
+
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="serchEngine">
+        <input type="text" id="movie_name" name="movie" />
+        <button id="enter">Search</button>
+    </div>
+    <div id="Container">
+
+    </div>
+    <div id="error"></div>
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            const submit = document.getElementById("enter");
+
+            submit.addEventListener("click", displayMovie)
+        })
+
+        //const movies = document.getElementById("").value;
+        //    async function getMovies(film_name) {
+        //         if (!film_name){
+        //             alert("Please enter a Movies Name");
+        //             return;
+        //         }
+        //         let res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=f8f51dd9=${movies}`)
+        //         .then(function(response){
+        //             return response.json();
+        //         })
+        //         .then(function(response){
+        //             console.log(response)
+        //             return response;
+        //         })
+        //     }
+
+        //    
+
+        async function requestreceive(Mymovie) {
+
+
+            try {
+                let res = await fetch(
+                    `http://www.omdbapi.com/?apikey=fee3dfe3&t=${Mymovie}`
+                )
+                let data = await res.json()
+                console.log(data)
+                return data;
+
+
+            } catch (err) {
+
+                console.log(err)
+            }
+        }
+
+        async function displayMovie() {
+            try {
+                const Mymovie = document.getElementById("movie_name").value;
+                var dato = await requestreceive(Mymovie)
+                var p = 0;
+                if (Mymovie === dato.Title) {
+                    p = 1;
+                }
+                if (p === 1) {
+                    const container = document.getElementById("Container");
+                    container.innerHTML = "";
+
+
+
+
+                    const img = document.createElement("img");
+                    img.src = dato.Poster;
+                    const div = document.createElement("div");
+                    div.className = "details"
+                    const title = document.createElement("h2");
+                    title.textContent = dato.Title;
+                    const p = document.createElement("p");
+                    p.textContent = `1- ${dato.Actors}`;
+                    const p1 = document.createElement("p");
+                    p.textContent = `Relese Daate : ${dato.Year}`;
+                    const p2 = document.createElement("p");
+                    p2.textContent = `Actors : ${dato.Actors}`;
+                    const p3 = document.createElement("p");
+                    p3.textContent = `  IMDB Rating : ${dato.imdbRating}`;
+                    const p4 = document.createElement("p");
+                    p4.textContent = `Box office Collection : ${dato.BoxOffice}`;
+                    div.append(title, p, p1, p2, p3, p4);
+                    container.append(img, div);
+                    if (dato.imdbRating > 8.5) {
+
+                        const tag = document.createElement("h3");
+                        const di2 = document.createElement("div")
+                        tag.textContent = "Its a super awesome Movies"
+                        
+                        var star = `<span class = "fa fa-star checked" >
+                        <span class = "fa fa-star checked" > 
+                            <span class = "fa fa-star checked" > 
+                             <span class = "fa fa-star" > 
+                             <span class = "fa fa-star" > `
+                                di2.innerHTML= star;
+                                div.append(tag,di2);
+                        //container.append(div);
+                    }
+
+                } else {
+                    const container = document.getElementById("Container");
+                    container.innerHTML = "";
+
+                    let rex = document.createElement("p")
+                    rex.innerHTML = `<img src="https://c.tenor.com/unvXyxtdn3oAAAAC/no-result.gif"/>`
+                    container.append(rex)
+                }
+
+            } catch (err) {
+
+            }
+        }
+    </script>
+</body>
+
+</html>
